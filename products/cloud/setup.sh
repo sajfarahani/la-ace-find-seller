@@ -6,8 +6,8 @@ set -e
 #
 # This only needs to be run once per project.
 # This is going to create a new service account and download the
-# key as a JSON file. 
-# The account has bigtable user and storage write permissions 
+# key as a JSON file.
+# The account has bigtable user and storage write permissions
 #
 ##############################################################################
 
@@ -19,7 +19,7 @@ source ../../common/project_settings.sh
 
 # Ensure the secrets dir exists
 mkdir -p ../app/secrets
-# Create a new role for the app. 
+# Create a new role for the app.
 SERVICE_ACCOUNT_NAME=product-service
 SERVICE_ACCOUNT_DEST=../app/secrets/service_account.json
 
@@ -54,15 +54,15 @@ echo "Service account created and key stored in the products/app/secrets dir wit
 echo "##############################################################################"
 ##############################################################################
 #
-# Create Kubernetes Cluster.  
-# 
+# Create Kubernetes Cluster.
+#
 #
 ##############################################################################
 gcloud beta container clusters create $PRODUCT_CLUSTER_NAME \
     --project $PROJECT_NAME \
     --zone $PROJECT_ZONE \
     --no-enable-basic-auth \
-    --cluster-version "1.9.7-gke.3" \
+    --cluster-version "1.11.8-gke.6" \
     --machine-type "n1-standard-1" \
     --image-type "COS" \
     --disk-type "pd-standard" \
@@ -81,9 +81,9 @@ gcloud beta container clusters create $PRODUCT_CLUSTER_NAME \
 ##############################################################################
 #
 # Push the container to the Google Cloud Container Registry.
-# Kubernetes works with container images, not dockerfiles. 
+# Kubernetes works with container images, not dockerfiles.
 # So we need to build the image and put it someplace that it can be accessed.
-# 
+#
 ##############################################################################
 gcloud auth configure-docker -q
 
@@ -101,7 +101,7 @@ data:
   # The path /sa comes from the volume mounted in the container.
   # It mounts the secret to that path.
   # The secret is created in the deploy.sh file for this service
-  SERVICE_ACCOUNT_FILE_NAME: "/sa/service_account.json" 
+  SERVICE_ACCOUNT_FILE_NAME: "/sa/service_account.json"
   PROJECT_ID: "$PROJECT_NAME"
   PRODUCT_CACHE_BUCKET: "$PUBLIC_ASSETS"
 ---
@@ -147,7 +147,7 @@ spec:
               name: "products-service-config"
       volumes:
       - name: service-account
-        secret: 
+        secret:
             secretName: service-account-file
 ---
 apiVersion: "autoscaling/v1"

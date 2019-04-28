@@ -2,10 +2,10 @@
     $(document).ready(function () {
 
         // The name of the product host. This is pulled from the Kubernetes service.
-        var productHost = "http://35.192.125.64/";
+        var productHost = "http://35.224.123.164/";
 
         // The name of the ads host. This is pulled from the Compute Engine Load Balancer.
-        var adHost = "http://35.190.63.29/";
+        var adHost = "http://34.96.77.69/";
 
         var app1 = new Vue({
             delimiters: ['[[', ']]'],
@@ -47,7 +47,7 @@
                     console.log("Request failed: " + textStatus);
                 });
             }
-            
+
         });
 
         var app2 = new Vue({
